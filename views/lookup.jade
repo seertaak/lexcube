@@ -1,0 +1,23 @@
+div.container.main-body
+  each data, term in terms
+    header.term-title
+      div.inner
+        h1= term
+    dl
+      each entry in data
+        dt
+          h4
+            #{entry.defn} 
+            unless entry.lemma == term
+              em (#{entry.lemma})
+        each defn in entry.defns
+          dd= defn
+        //li.unstyled
+          h3
+            #{entry.defn} 
+            unless entry.lemma == term
+              em (#{entry.lemma})
+          ul.subdefn
+            each defn in entry.defns
+              li= defn
+

@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+div#header {
+	text-align:center;
+}
+
+div#searchTermDiv {
+	width:500px;
+	margin:0px auto;
+	text-align:center;
+	padding:15px;
+}
+
+input#searchTerm {
+  width: 500px;
+  height: 24px;
+}
+
+div#searchButtonDiv {
+	width:200px;
+	margin:0px auto;
+	text-align:center;
+	padding:15px;
+}
+
+a {
+  color: #00B7FF;
+}

@@ -1,0 +1,42 @@
+div.container.main-body
+  div.row
+    div.span8
+      div.hero-unit
+        div#forget-img.pull-right
+          img(src='images/forget.jpg')
+        h1 forgetting 
+        h2 words you
+        h1 <em>already</em> 
+        h2 looked up?
+        p With lexcube, you can take quizes to test you on words you've encountered before.
+        p
+          a.btn.btn-primary.btn-large Example quiz
+    div.span4
+      form(action='/login', method='post')
+        fieldset
+          h2 Sign in
+          label(for='inputEmail') Username
+          input#inputEmail.span4(type='text', placeholder='fritzlange24', name='username')
+          label(for='inputPassword') Password
+          input#inputPassword.span4(type='password', name='password')
+          button.btn.btn-primary.btn-large(type='submit') Sign in
+          text  
+          button.btn.btn-large Create account
+  div.row
+    div.span4
+      h2 Sign up
+      p You can use lexcube as a simple dictionary if you want, but to take quizes, you need to sign up. 
+      p Signing up is easy and free: just tell us your username, your password, and click "Create account". That's it!
+    div.span4
+      h2 Look up words
+      p We have the most responsive and beautiful dictionary online. Also, you can surf our dictionary for terms semantically related to the search term, such as synonyms and antonyms.
+      p Lexcube use WordNet under the hood.
+    div.span4
+      h2 Refresh your memory
+      p Lexcube will remind you to take quizes every now and then. Quizes take only a couple of minutes, and ensure that a looking up a term will result in it eventually being committed to your <strong>long term</strong> memory.
+
+
+
+
+
+        

@@ -1,0 +1,59 @@
+html {
+  font-size: 12;
+}
+
+.main-body {
+  margin-top: 100px;
+}
+
+.wordcube-title {
+	text-align:center;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.term-title {
+	text-align: left;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+ul.subdefn {
+  list-style: none;
+  margin-left: 50px;
+}
+
+.term-title h1 {
+  font-size: 54px;
+}
+
+.wordcube-title h1 {
+  font-size: 74px;
+}
+
+button#submitBtn {
+  width: 100%;
+}
+
+div#searchTextDiv {
+  width: 600px;
+  margin: 0px auto;
+}
+
+div#submitBtnDiv {
+  width: 100px;
+  margin: 0px auto;
+  margin-top: 5px;
+}
+  
+input#searchTextEdit {
+  width: 100%;
+}
+
+div#forget-img {
+  margin-top: 30px;
+}
+
+div#forget-img img {
+  width: 128px;
+}

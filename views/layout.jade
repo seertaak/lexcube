@@ -1,0 +1,21 @@
+!!!
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/libs/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/custom.css')
+  body
+    div.navbar.navbar-fixed-top
+      div.navbar-inner
+        div.container
+          a.brand(href='./') lexcube
+          ul.nav.pull-right
+            li 
+              a(href='./login') Login/Signup
+            li 
+              a(href='./quiz') Take Quiz
+    !{body}
+    div.navbar.navbar-fixed-bottom
+      div.navbar-inner
+        div.container
+          p.pull-right Copyright 2012, Martin Percossi

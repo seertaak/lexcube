@@ -1,0 +1,8 @@
+div.container.main-body
+  div.wordcube-title
+    h1 lexcube
+  form(action='lookup', method='get', class='form-vertical')
+    div#searchTextDiv
+      input#searchTextEdit.input-xlarge(type='text', placeholder='Type the word you want to lookup (e.g. quixotic)', name='term', autofocus='autofocus')
+    div#submitBtnDiv
+      button#submitBtn.btn.btn-primary.btn-large(type='submit', value='Lookup') Search
