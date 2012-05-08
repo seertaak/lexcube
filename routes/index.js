@@ -10,7 +10,8 @@ exports.index = function(req, res){
 };
 
 exports.login = function(req, res) {
-  res.render('login', { title: 'wordcube' });
+  var msgs = req.flash('error');
+  res.render('login', { title: 'wordcube', messages: msgs });
 };
 
 exports.lookup = function(req, res){

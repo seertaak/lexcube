@@ -22,6 +22,10 @@ div.container.main-body
           button.btn.btn-primary.btn-large(type='submit', name='login') Sign in
           text  
           button.btn.btn-large(name='createAcct') Create account
+      if messages && messages.length
+        each msg in messages
+          div.alert.alert-error
+            #{msg}
   div.row
     div.span4
       h2 Sign up

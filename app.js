@@ -76,16 +76,13 @@ passport.use(new LocalStrategy(
   }
 ));
 
-
-
-
-/*
 var UserSchema = new Schema({
   username: String,
   password: String,
   created: {type: Date, default: Date.now}
 });
 
+/*
 mongoose.connect('mongodb://localhost/lexcube');
 mongoose.model('User', UserSchema);
 
@@ -142,13 +139,17 @@ app.get('/lookup', routes.lookup);
 app.get('/login', routes.login);
 /*
 app.post('/login', 
-  passport.authenticate('local', { successRedirect: '/',
-    failureRedirect: '/login', failureFlash: true })
 );
 */
 
 app.post('/login', function(req, res) {
-    console.log("req.query=" + JSON.stringify(req.query));
+    if ('login' in req.body) {
+      passport.authenticate('local', { successRedirect: '/',
+        failureRedirect: '/login', failureFlash: true })(req, res);
+    } else if ('createAcct' in req.body) {
+
+    }
+    console.log("req.query=" + JSON.stringify(req.body));
 });
 
 
