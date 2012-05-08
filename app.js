@@ -11,98 +11,41 @@ var express = require('express'),
     stylus = require('stylus'),
     Schema = mongoose.Schema;
 
-var users = [
-  { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' },
-  { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
-];
+var UserSchema = new Schema({
+  username: {type: String, index: true},
+  hashed_password: String,
+  created: {type: Date, default: Date.now}
+});
 
-function findById(id, fn) {
-  var idx = id - 1;
-  if (users[idx]) {
-    fn(null, users[idx]);
-  } else {
-    fn(new Error('User ' + id + ' does not exist'));
-  }
-}
+mongoose.connect('mongodb://localhost/lexcube');
 
-function findByUsername(username, fn) {
-  for (var i = 0, len = users.length; i < len; i++) {
-    var user = users[i];
-    if (user.username === username) {
-      return fn(null, user);
-    }
-  }
-  return fn(null, null);
-}
+var User = mongoose.model('User', UserSchema);
 
-
-// Passport session setup.
-//   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user.username);
 });
 
 passport.deserializeUser(function(id, done) {
-  findById(id, function (err, user) {
+  User.findOne(id, function (err, user) {
     done(err, user);
   });
 });
 
-
-// Use the LocalStrategy within Passport.
-//   Strategies in passport require a `verify` function, which accept
-//   credentials (in this case, a username and password), and invoke a callback
-//   with a user object.  In the real world, this would query a database;
-//   however, in this example we are using a baked-in set of users.
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      
-      // Find the user by username.  If there is no user with the given
-      // username, or the password is not correct, set the user to `false` to
-      // indicate failure and set a flash message.  Otherwise, return the
-      // authenticated `user`.
-      findByUsername(username, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false, { message: 'Unkown user ' + username }); }
-        if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
-        return done(null, user);
-      })
-    });
-  }
-));
-
-var UserSchema = new Schema({
-  username: String,
-  password: String,
-  created: {type: Date, default: Date.now}
-});
-
-/*
-mongoose.connect('mongodb://localhost/lexcube');
-mongoose.model('User', UserSchema);
-
-var User = mongoose.model('User');
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username, password: password }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) {
+        return done(err);
+      } else if (!user) {
         return done(null, false, { message: 'Unknown user' });
-      }
-      if (!user.validPassword(password)) {
+      } else if (user.password !== password) {
         return done(null, false, { message: 'Invalid password' });
+      } else {
+        return done(null, user);
       }
-      return done(null, user);
     });
   }
 ));
-*/
 
 var app = module.exports = express.createServer();
 
@@ -133,23 +76,41 @@ app.configure('production', function(){
 });
 
 // Routes
-
 app.get('/', routes.index);
 app.get('/lookup', routes.lookup);
 app.get('/login', routes.login);
-/*
-app.post('/login', 
-);
-*/
-
 app.post('/login', function(req, res) {
-    if ('login' in req.body) {
+    if ('createAcct' in req.body) {
+      //console.log("createAcct: " + req.body.username + ":" + req.body.password);
+      User.find({username: req.body.username}, function (err, docs) {
+        if (docs.length) {
+          // we can't use this username, as it's already taken: send a flash
+          // message to the user to this effect.
+          //console.log("MPD: " + JSON.stringify(docs));
+          req.flash('error', 'User already exists; please use a different username.');
+          res.redirect('/login');
+        } else {
+          //console.log("MPD: No such user");
+          var user = new User();
+          user.username = req.body.username;
+          user.password = req.body.password;
+          user.save(function (err) {
+            if (err) {
+              //console.log("Error while trying to save user: " + JSON.stringify(user) + ":" + err);
+              req.flash('error', 'Oops, there was a problem: please try again!');
+              res.redirect('/login');
+            } else {
+              passport.authenticate('local', { successRedirect: '/',
+                failureRedirect: '/login', failureFlash: true })(req, res);
+            }
+          });
+        }
+      });
+    } else {
+      //console.log("MPD: attempting to log in.");
       passport.authenticate('local', { successRedirect: '/',
         failureRedirect: '/login', failureFlash: true })(req, res);
-    } else if ('createAcct' in req.body) {
-
     }
-    console.log("req.query=" + JSON.stringify(req.body));
 });
 
 

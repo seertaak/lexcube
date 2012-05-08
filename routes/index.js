@@ -20,7 +20,8 @@ exports.lookup = function(req, res){
   terms[natural.LancasterStemmer.stem(req.query.term)] = [].slice();
   terms[natural.PorterStemmer.stem(req.query.term)] = [].slice();
 
-  console.log("Searching for: " + JSON.stringify(terms));
+  console.log("MPD: Searching for: " + JSON.stringify(terms));
+  console.log("MPD: User: " + JSON.stringify(req.body.user));
 
   var count = Object.keys(terms).length;
   console.log("number of terms: " + count);
