@@ -4,12 +4,24 @@
 
 var natural = require('natural');
 var wordnet = new natural.WordNet('wordnet');
+var db = require('../lib/db.js');
 
 exports.index = function(req, res){
   res.render('index', { title: 'wordcube', user: req.user });
 };
 
 exports.login = require('./login');
+
+exports.user = function(req, res) {
+  db.User.findOne({username: req.user.username}, function(err, user) {
+    console.log('MPD: /user: ' + doc);
+    res.render('user', { 
+      title: 'wordcube', 
+      user: req.user, 
+      pastSearches: user.pastSearches 
+    });
+  });
+};
 
 exports.lookup = function(req, res){
   var terms = {};
@@ -53,6 +65,18 @@ exports.lookup = function(req, res){
             }
           }
           console.log("final terms: " + JSON.stringify(terms));
+
+          if ('user' in req && req.user) {
+            db.User.findOne({username: req.user.username}, function(err, u) {
+              for (var x in terms) {
+                u.pastSearches.push({ word: x });
+              }
+              u.save(function (err) {
+                if (err)
+                  console.log('MPD: User.update: ERROR: ' + err);
+              });
+            });
+          }
           res.render('lookup', { title: 'wordcube', user: req.user,
             terms: terms});
         }

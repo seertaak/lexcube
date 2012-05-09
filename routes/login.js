@@ -1,10 +1,10 @@
-var passport = require('passport');
+var passport = require('passport'),
+  db = require('../lib/db.js');
 
 exports.get = function(req, res) {
   var msgs = req.flash('error');
   res.render('login', { title: 'wordcube', messages: msgs, user: req.user });
 };
-
 
 exports.post = function(req, res) {
   if ('createAcct' in req.body) {
@@ -35,6 +35,7 @@ exports.post = function(req, res) {
     });
   } else {
     console.log("MPD: attempting to log in.");
+    console.log("MPD: user: " + req.body.username);
     passport.authenticate('local', { successRedirect: '/',
       failureRedirect: '/login', failureFlash: true })(req, res);
   }

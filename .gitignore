@@ -1,4 +1,5 @@
 *~
+data/mongod.lock
 *.swp
 .*.swp
 .DS_Store

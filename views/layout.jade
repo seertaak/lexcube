@@ -10,10 +10,18 @@ html
         div.container
           a.brand(href='./') lexcube
           ul.nav.pull-right
-            li 
-              a(href='./login') Login/Signup
+            if 'user' in locals && user
             li 
               a(href='./quiz') Take Quiz
+            if 'user' in locals && user
+              li
+                a(href='./user') #{user.username}
+              li 
+                a(href='./logout') Sign out
+            else
+              li 
+                a(href='./login') Login/Signup
+
     !{body}
     div.navbar.navbar-fixed-bottom
       div.navbar-inner

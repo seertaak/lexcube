@@ -1,0 +1,12 @@
+div.container.main-body
+  header.term-title
+    div.inner
+      h1= user.username
+  h2 Past search terms
+  p
+    table.table.table-bordered.table-striped
+      for search in pastSearches
+        tr
+          th= search.word
+          th= search.created
+

@@ -43,6 +43,11 @@ app.configure('production', function(){
 
 app.get('/login', routes.login.get);
 app.post('/login', routes.login.post);
+app.get('/logout', function(req, res) {
+  req.logOut();
+  res.redirect('/');
+});
+app.get('/user', routes.user);
 
 // Routes
 app.get('/', routes.index);
