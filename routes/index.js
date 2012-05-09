@@ -23,6 +23,9 @@ exports.user = function(req, res) {
   });
 };
 
+exports.quiz = function(req, res) {
+};
+
 exports.lookup = function(req, res){
   var terms = {};
   terms[req.query.term ] = [].slice();
