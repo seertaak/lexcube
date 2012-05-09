@@ -6,13 +6,10 @@ var natural = require('natural');
 var wordnet = new natural.WordNet('wordnet');
 
 exports.index = function(req, res){
-  res.render('index', { title: 'wordcube' });
+  res.render('index', { title: 'wordcube', user: req.user });
 };
 
-exports.login = function(req, res) {
-  var msgs = req.flash('error');
-  res.render('login', { title: 'wordcube', messages: msgs });
-};
+exports.login = require('./login');
 
 exports.lookup = function(req, res){
   var terms = {};
@@ -56,7 +53,7 @@ exports.lookup = function(req, res){
             }
           }
           console.log("final terms: " + JSON.stringify(terms));
-          res.render('lookup', { title: 'wordcube', 
+          res.render('lookup', { title: 'wordcube', user: req.user,
             terms: terms});
         }
         //console.log("data: " + data);
